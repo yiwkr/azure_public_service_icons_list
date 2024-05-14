@@ -254,7 +254,7 @@ function generate_icons_list() {
             <li>
               <button id="$escaped_category-$service_id-$escaped_service_name" class="service-icon-card" title="$icon_title">
                 <div class="service-icon-card-content">
-                  <img class="service-icon-image" alt="$service_name" src="data:image/svg+xml;base64,$icon_data"/>
+                  <img class="service-icon-image" alt="$service_name" name="${icon_path##*/}" src="data:image/svg+xml;base64,$icon_data"/>
                   <div class="service-icon-text-container"><span class="service-icon-name">${service_name}</span></div>
                 </div>
               </button>
@@ -302,6 +302,7 @@ function generate_javascript() {
   const serviceSearchInputDebounceMillisec = 250;
   const searchWordSeparator = /\s+/;
   const servicesInfo = {
+    "Application Security Groups": { keywords: ["ASG"] },
     "App Service Plans": { keywords: ["containers"] },
     "App Services": { keywords: ["containers", "Functions", "linux", "lightsail", "mobile", "mobile services", "mobile apps", "mobileapps", "mobileservices"] },
     "Automation Accounts": { keywords: ["powershell", "Powershell"] },
@@ -322,6 +323,7 @@ function generate_javascript() {
     "Local Network Gateways": { keywords: ["VPN"] },
     "Metrics Advisor": { keywords: ["AI", "Applied AI"] },
     "Network Interfaces": { keywords: ["NIC", "card", "interfaces", "network"] },
+    "Network Security Groups": { keywords: ["NSG"] },
     "Power Platform": { keywords: ["mobile apps"] },
     "Private Link": { keywords: ["private endpoint"] },
     "SSH Keys": { keywords: ["sshkey"] },
