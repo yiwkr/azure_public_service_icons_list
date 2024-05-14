@@ -326,6 +326,7 @@ function generate_javascript() {
     "Network Security Groups": { keywords: ["NSG"] },
     "Power Platform": { keywords: ["mobile apps"] },
     "Private Link": { keywords: ["private endpoint"] },
+    "Recovery Services Vaults": { keywords: ["Azure Site Recovery", "ASR"] },
     "SSH Keys": { keywords: ["sshkey"] },
     "Savings Plans": { keywords: ["compute"] },
     "Subscriptions": { keywords: ["resources", "resource groups"] },
