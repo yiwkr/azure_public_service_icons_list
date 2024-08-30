@@ -2,7 +2,7 @@
 
 ## build
 
-1. Download `Azure_Public_Service_Icons_V17.zip` from https://learn.microsoft.com/azure/architecture/icons/ and decompress it.
+1. Download `Azure_Public_Service_Icons_V19.zip` from https://learn.microsoft.com/azure/architecture/icons/ and decompress it.
 2. Put `Azure_Public_Service_Icons` in the same directory as the `build.sh` script.
 
     ```

@@ -29,8 +29,8 @@ jobs:
         uses: actions/checkout@v3
       - name: Build
         run: |
-          curl -LO https://arch-center.azureedge.net/icons/Azure_Public_Service_Icons_V17.zip
-          unzip Azure_Public_Service_Icons_V17.zip
+          curl -LO https://arch-center.azureedge.net/icons/Azure_Public_Service_Icons_V19.zip
+          unzip Azure_Public_Service_Icons_V19.zip
           mkdir -p _site/
           ./build.sh > _site/index.html
       - name: Fix permissions
