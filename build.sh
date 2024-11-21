@@ -429,11 +429,7 @@ function generate_javascript() {
         service.elem.style.display = "";
 
         /* add keywords element to service icon card */
-        const addKeywordsElement = () => {
-          if (!keywords) {
-            return;
-          }
-
+        if (keywords) {
           /* get keywords elements */
           const keywordsElements = service.elem.getElementsByClassName("service-icon-keywords");
 
@@ -450,7 +446,6 @@ function generate_javascript() {
             service.elem.getElementsByClassName("service-icon-text-container").item(0).appendChild(newSpan);
           }
         };
-        addKeywordsElement();
       } else {
         /* hide */
         service.elem.style.display = "none";
