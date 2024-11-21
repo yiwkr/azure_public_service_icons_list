@@ -6,8 +6,43 @@ function errorlog() { log ERROR "$@"; }
 function debuglog() { [[ -n "$DEBUG" ]] && log DEBUG "$@"; }
 function infolog() { log INFO "$@"; }
 
+function usage() {
+cat <<EOM
+Usage: build.sh [-h|--help] [-d|--debug]
+
+This script builds html text and print it to stdout.
+
+Optional arguments
+  -h, --help     show this messages
+  -d, --debug    enable debug mode
+EOM
+}
+
+# parse arguments
+args=()
+for _ in "$@"; do
+  case "$1" in
+    -h|--help)
+      usage
+      exit 0
+      ;;
+    -d|--debug)
+      DEBUG=1
+      ;;
+    *)
+      [[ -n "$1" ]] && args+=("$1")
+      ;;
+  esac
+  shift
+done
+
+if [[ "${#args[@]}" -gt 0 ]]; then
+  errorlog "unknown arguments:" "${args[@]}"
+  exit 1
+fi
+
 if [[ -n "$DEBUG" ]]; then
-  debuglog "debug mode on (DEBUG=${DEBUG})"
+  debuglog "debug mode is enabled"
 fi
 
 # constants
@@ -234,7 +269,7 @@ function generate_nav() {
     local escaped_category="${category// /-}"
     local capitalized_category="$(echo "$category" | capitalize)"
     cat << EOM
-        <li><a href="#service-icons-$escaped_category">$capitalized_category</a></li>
+<li><a href="#service-icons-$escaped_category">$capitalized_category</a></li>
 EOM
   done
 }
@@ -251,14 +286,14 @@ function generate_icons_list() {
     local icon_data="$(base64 -w 0 "$icon_path")"
     local icon_title="$(echo "$icon_path" | sed "s;$ICONS_DIR/;;")"
     cat << EOM
-            <li>
-              <button id="$escaped_category-$service_id-$escaped_service_name" class="service-icon-card" title="$icon_title">
-                <div class="service-icon-card-content">
-                  <img class="service-icon-image" alt="$service_name" name="${icon_path##*/}" src="data:image/svg+xml;base64,$icon_data"/>
-                  <div class="service-icon-text-container"><span class="service-icon-name">${service_name}</span></div>
-                </div>
-              </button>
-            </li>
+<li>
+  <button id="$escaped_category-$service_id-$escaped_service_name" class="service-icon-card" title="$icon_title">
+    <div class="service-icon-card-content">
+      <img class="service-icon-image" alt="$service_name" name="${icon_path##*/}" src="data:image/svg+xml;base64,$icon_data"/>
+      <div class="service-icon-text-container"><span class="service-icon-name">${service_name}</span></div>
+    </div>
+  </button>
+</li>
 EOM
   done
 }
@@ -271,18 +306,18 @@ function generate_icons_lists() {
     local services_num="$(echo "$SVG_FILES" | grep -c "/$category/")"
 
     cat << EOM
-        <div class="service-category">
-          <h3 id="service-icons-$escaped_category">
-            <a href="#service-icons-$escaped_category">
-              $(echo "$category" | capitalize)
-              <span class="category-services-num">($services_num)</span>
-            </a>
-          </h3>
-          <ul class="service-icons-list">
+<div class="service-category">
+  <h3 id="service-icons-$escaped_category">
+    <a href="#service-icons-$escaped_category">
+      $(echo "$category" | capitalize)
+      <span class="category-services-num">($services_num)</span>
+    </a>
+  </h3>
+  <ul class="service-icons-list">
 $(generate_icons_list "$category")
-          </ul>
-          <small><a href="#service-categories">カテゴリ一覧</a></small>
-        </div>
+  </ul>
+  <small><a href="#service-categories">カテゴリ一覧</a></small>
+</div>
 EOM
   done
 }
@@ -496,17 +531,20 @@ $(generate_style)
       <h1>Azure Public Service Icons List</h1>
     </div>
   </header>
+
   <div class="container">
     <h2 id="overview"><a href="#overview">Overview</a></h2>
     <p>
       <a href="https://learn.microsoft.com/ja-jp/azure/architecture/icons/">https://learn.microsoft.com/ja-jp/azure/architecture/icons/</a> から入手したアイコンをもとに作成した一覧です。
     </p>
+
     <nav>
       <h2 id="service-categories"><a href="#service-categories">Service Categories</a></h2>
       <ul class="service-categories">
 $(generate_nav)
       </ul>
     </nav>
+
     <main>
       <h2 id="service-icons"><a href="#service-icons">Service Icons</a></h2>
       <div class="service-search-container">
@@ -518,11 +556,13 @@ $(generate_icons_lists)
       </div>
     </main>
   </div>
+
   <footer>
     <div class="footer">
 $(generate_footer)
     </div>
   </footer>
+
   <script type="text/javascript">
   <!--
 $(generate_javascript)
